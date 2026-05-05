@@ -1,13 +1,23 @@
-def calcular_metricas(notas_fiscais):
-    quantidade = len(notas_fiscais)
+def calcular_metricas(valores):
     soma = 0
-    for n in notas_fiscais:
-        soma += n
-    media = soma / quantidade
+    for valor in valores:
+        soma = soma + valor
+    media = soma / len(valores)
 
-    soma_quadrados = 0
-    for n in notas_fiscais:
-        soma_quadrados += (n - media) ** 2
-    variancia = soma_quadrados / quantidade
+    soma_extra = 0 
+    for valor in valores:
+        soma_extra = soma_extra + (valor - media)**2
+    variancia = soma_extra / len(valores)
+
+    desvio = variancia ** 0.5
+    limite = media + (3 * desvio)
     
-    return media, variancia, quantidade
+   
+    for valor in valores:
+        if valor >= limite:
+            z_score = (valor - media) / desvio
+            print(f"ALERTA DE FRAUDE !!! Valor encontrado : {valor}")
+            print(f"Z-Score deste valor: {z_score:.2f}")
+
+    
+    return media, variancia, len(valores)
